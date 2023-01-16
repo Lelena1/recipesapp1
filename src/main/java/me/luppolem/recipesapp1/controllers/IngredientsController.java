@@ -2,10 +2,7 @@ package me.luppolem.recipesapp1.controllers;
 
 import me.luppolem.recipesapp1.model.Ingredient;
 import me.luppolem.recipesapp1.services.IngredientsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ingredients")
@@ -16,15 +13,15 @@ public class IngredientsController {
         this.ingredientsService = ingredientsService;
     }
 
-    @GetMapping("/add")
-    public String addIngredient(@RequestParam Ingredient ingredient) {
+    @PostMapping("/add")
+    public String addIngredient(@RequestBody Ingredient ingredient) {
         ingredientsService.addIngredient(ingredient);
         return "Ингредиент успешно добавлен!" + ingredient;
     }
 
     @GetMapping("/get")
-    public String getIngredient(@RequestParam Long id) {
-        ingredientsService.getIngredient(id);
-        return "Вы запросили ингредиент: " + id;
+    public Ingredient getIngredient(@RequestParam Long id) {
+        return ingredientsService.getIngredient(id);
     }
 }
+

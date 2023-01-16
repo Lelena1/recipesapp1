@@ -15,13 +15,11 @@ public class IngredientsServiceImpl implements IngredientsService {
 
     @Override
     public void addIngredient(Ingredient ingredient) {
-
         ingredients.put(id++, ingredient);
     }
 
     @Override
-    public void getIngredient(Long id) {
-        ingredients.get(id);
-
+    public Ingredient getIngredient(Long id) {
+        return ingredients.get(id);
     }
 }

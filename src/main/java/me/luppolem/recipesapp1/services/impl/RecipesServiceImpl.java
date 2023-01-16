@@ -14,14 +14,11 @@ public class RecipesServiceImpl implements RecipesService {
 
     @Override
     public void addRecipe(Recipe recipe) {
-
         recipes.put(id++, recipe);
-
     }
 
     @Override
-    public void getRecipe(Long id) {
-        recipes.get(id);
-
+    public Recipe getRecipe(Long id) {
+        return recipes.get(id);
     }
 }
