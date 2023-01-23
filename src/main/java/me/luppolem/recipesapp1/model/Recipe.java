@@ -1,5 +1,6 @@
 package me.luppolem.recipesapp1.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -7,15 +8,25 @@ import java.util.Objects;
 public class Recipe {
     private String nameOfRecipe;
     private int cookingTimeMinutes;
-    private List<Ingredient> ingredients = new LinkedList<>();
-    private List<String> steps = new LinkedList<>();
+    private int numberOfServings;
+    private List<Ingredient> ingredients = new ArrayList<>();
+    private List<String> steps = new ArrayList<>();
 
-    public Recipe(String nameOfRecipe, int cookingTimeMinutes, List<Ingredient> ingredients, List<String> steps) {
+    public Recipe(String nameOfRecipe, int cookingTimeMinutes, int numberOfServings, List<Ingredient> ingredients, List<String> steps) {
         this.nameOfRecipe = ValidateUtils.validateString(nameOfRecipe);
         this.cookingTimeMinutes = ValidateUtils.validateInteger(cookingTimeMinutes);
+        this.numberOfServings = ValidateUtils.validateInteger(numberOfServings);
         this.ingredients = ingredients;
         this.steps = steps;
 
+    }
+
+    public int getNumberOfServings() {
+        return numberOfServings;
+    }
+
+    public void setNumberOfServings(int numberOfServings) {
+        this.numberOfServings = ValidateUtils.validateInteger(numberOfServings);
     }
 
     public String getNameOfRecipe() {
@@ -55,11 +66,11 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return cookingTimeMinutes == recipe.cookingTimeMinutes && Objects.equals(nameOfRecipe, recipe.nameOfRecipe) && Objects.equals(ingredients, recipe.ingredients) && Objects.equals(steps, recipe.steps);
+        return cookingTimeMinutes == recipe.cookingTimeMinutes && numberOfServings == recipe.numberOfServings && Objects.equals(nameOfRecipe, recipe.nameOfRecipe) && Objects.equals(ingredients, recipe.ingredients) && Objects.equals(steps, recipe.steps);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nameOfRecipe, cookingTimeMinutes, ingredients, steps);
+        return Objects.hash(nameOfRecipe, cookingTimeMinutes, numberOfServings, ingredients, steps);
     }
 }
