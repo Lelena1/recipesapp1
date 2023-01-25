@@ -1,15 +1,17 @@
 package me.luppolem.recipesapp1.model;
-import lombok.AllArgsConstructor;
+
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
+import static org.apache.el.parser.ELParserConstants.COMMA;
 
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Ingredient {
     @NotBlank(message = "Введите название ингредиента!")
@@ -19,5 +21,9 @@ public class Ingredient {
     @NotBlank(message = "Введите единицу измерения!")
     private String measureUnit;
 
-
+    public Ingredient(String nameOfIngredient, int countOfIngredient, String measureUnit) {
+        this.nameOfIngredient = ValidateUtils.validateStringByDefault(nameOfIngredient);
+        this.countOfIngredient = countOfIngredient;
+        this.measureUnit = ValidateUtils.validateStringByDefault(measureUnit);
+    }
 }

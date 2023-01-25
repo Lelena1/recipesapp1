@@ -1,6 +1,5 @@
 package me.luppolem.recipesapp1.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 
 public class Recipe {
@@ -24,5 +22,11 @@ public class Recipe {
     @NotBlank(message = "Введите шаги приготовления блюда по рецепту")
     private List<String> steps = new ArrayList<>();
 
-
+    public Recipe(String nameOfRecipe, int cookingTimeMinutes, int numberOfServings, List<Ingredient> ingredients, List<String> steps) {
+        this.nameOfRecipe = ValidateUtils.validateStringByDefault(nameOfRecipe);
+        this.cookingTimeMinutes = cookingTimeMinutes;
+        this.numberOfServings = numberOfServings;
+        this.ingredients = ingredients;
+        this.steps = steps;
+    }
 }
