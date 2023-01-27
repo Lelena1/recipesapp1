@@ -1,51 +1,29 @@
 package me.luppolem.recipesapp1.model;
-import java.util.Objects;
 
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+import static org.apache.el.parser.ELParserConstants.COMMA;
+
+
+@Data
+@NoArgsConstructor
 public class Ingredient {
+    @NotBlank(message = "Введите название ингредиента!")
     private String nameOfIngredient;
+    @Min(value = 0, message = "Количество ингредиента должно быть больше нуля!")
     private int countOfIngredient;
+    @NotBlank(message = "Введите единицу измерения!")
     private String measureUnit;
 
-    public Ingredient(String nameOfIngredient, int countOfIngredients, String measureUnit) {
-        this.nameOfIngredient = ValidateUtils.validateString(nameOfIngredient);
-        this.countOfIngredient = ValidateUtils.validateInteger(countOfIngredients);
-        this.measureUnit = ValidateUtils.validateString(measureUnit);
-    }
-
-    public String getNameOfIngredient() {
-        return nameOfIngredient;
-    }
-
-    public void setNameOfIngredient(String nameOfIngredient) {
-        this.nameOfIngredient = ValidateUtils.validateString(nameOfIngredient);
-    }
-
-    public int getCountOfIngredients() {
-        return countOfIngredient;
-    }
-
-    public void setCountOfIngredients(int countOfIngredients) {
-        this.countOfIngredient = ValidateUtils.validateInteger(countOfIngredients);
-    }
-
-    public String getMeasureUnit() {
-        return measureUnit;
-    }
-
-    public void setMeasureUnit(String measureUnit) {
-        this.measureUnit = ValidateUtils.validateString(measureUnit);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ingredient that = (Ingredient) o;
-        return countOfIngredient == that.countOfIngredient && Objects.equals(nameOfIngredient, that.nameOfIngredient) && Objects.equals(measureUnit, that.measureUnit);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nameOfIngredient, countOfIngredient, measureUnit);
+    public Ingredient(String nameOfIngredient, int countOfIngredient, String measureUnit) {
+        this.nameOfIngredient = ValidateUtils.validateStringByDefault(nameOfIngredient);
+        this.countOfIngredient = countOfIngredient;
+        this.measureUnit = ValidateUtils.validateStringByDefault(measureUnit);
     }
 }

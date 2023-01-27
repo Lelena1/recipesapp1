@@ -1,76 +1,32 @@
 package me.luppolem.recipesapp1.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
+
+@Data
+@NoArgsConstructor
 
 public class Recipe {
+    @NotBlank(message = "Введите название рецепта!")
     private String nameOfRecipe;
+    @Min(value = 0, message = "Время приготовления должно быть больше нуля!")
     private int cookingTimeMinutes;
+    @Min(value = 0, message = "Количество порций должно быть больше нуля!")
     private int numberOfServings;
     private List<Ingredient> ingredients = new ArrayList<>();
+    @NotBlank(message = "Введите шаги приготовления блюда по рецепту")
     private List<String> steps = new ArrayList<>();
 
     public Recipe(String nameOfRecipe, int cookingTimeMinutes, int numberOfServings, List<Ingredient> ingredients, List<String> steps) {
-        this.nameOfRecipe = ValidateUtils.validateString(nameOfRecipe);
-        this.cookingTimeMinutes = ValidateUtils.validateInteger(cookingTimeMinutes);
-        this.numberOfServings = ValidateUtils.validateInteger(numberOfServings);
+        this.nameOfRecipe = ValidateUtils.validateStringByDefault(nameOfRecipe);
+        this.cookingTimeMinutes = cookingTimeMinutes;
+        this.numberOfServings = numberOfServings;
         this.ingredients = ingredients;
         this.steps = steps;
-
-    }
-
-    public int getNumberOfServings() {
-        return numberOfServings;
-    }
-
-    public void setNumberOfServings(int numberOfServings) {
-        this.numberOfServings = ValidateUtils.validateInteger(numberOfServings);
-    }
-
-    public String getNameOfRecipe() {
-        return nameOfRecipe;
-    }
-
-    public void setNameOfRecipe(String nameOfRecipe) {
-        this.nameOfRecipe = ValidateUtils.validateString(nameOfRecipe);
-    }
-
-    public int getCookingTimeMinutes() {
-        return cookingTimeMinutes;
-    }
-
-    public void setCookingTimeMinutes(int cookingTimeMinutes) {
-        this.cookingTimeMinutes = ValidateUtils.validateInteger(cookingTimeMinutes);
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public List<String> getSteps() {
-        return steps;
-    }
-
-    public void setSteps(List<String> steps) {
-        this.steps = steps;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Recipe recipe = (Recipe) o;
-        return cookingTimeMinutes == recipe.cookingTimeMinutes && numberOfServings == recipe.numberOfServings && Objects.equals(nameOfRecipe, recipe.nameOfRecipe) && Objects.equals(ingredients, recipe.ingredients) && Objects.equals(steps, recipe.steps);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nameOfRecipe, cookingTimeMinutes, numberOfServings, ingredients, steps);
     }
 }
