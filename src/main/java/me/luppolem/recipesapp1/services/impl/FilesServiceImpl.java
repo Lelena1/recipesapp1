@@ -4,6 +4,7 @@ import me.luppolem.recipesapp1.services.FilesService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,6 +34,9 @@ public class FilesServiceImpl implements FilesService {
 
         try {
             Path path = Path.of(dataFilePath, dataFileName);
+            if (!Files.exists(path)) {
+                throw new FileNotFoundException();
+            }
             return Files.readString(path);
         } catch (IOException e) {
             e.printStackTrace();
