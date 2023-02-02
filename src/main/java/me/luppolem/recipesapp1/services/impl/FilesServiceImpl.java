@@ -4,6 +4,7 @@ import me.luppolem.recipesapp1.services.FilesService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +16,7 @@ public class FilesServiceImpl implements FilesService {
     private String dataFilePath;
 
     @Override
-    public boolean saveToFile(String json,String dataFileName) {
+    public boolean saveToFile(String json, String dataFileName) {
 
         try {
             Path path = Path.of(dataFilePath, dataFileName);
@@ -44,7 +45,13 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-    private boolean cleanDataFile(String dataFileName) {
+    @Override
+    public File getDataFile(String dataFileName) {
+        return new File(dataFilePath + "/" + dataFileName);
+    }
+
+    @Override
+    public boolean cleanDataFile(String dataFileName) {
         try {
             Path path = Path.of(dataFilePath, dataFileName);
             Files.deleteIfExists(path);
