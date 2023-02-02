@@ -38,8 +38,8 @@ public class FilesController {
         }
     }
 
-    @GetMapping(value = "/export/ingr")
-    public ResponseEntity<InputStreamResource> downloadIndgrDataFile(String dataFileName) throws FileNotFoundException {
+    @GetMapping(value = "/export/ingredients")
+    public ResponseEntity<InputStreamResource> downloadIngrDataFile(String dataFileName) throws FileNotFoundException {
         File file = filesService.getDataFile(dataFileName);
         if (file.exists()) {
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
