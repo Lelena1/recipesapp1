@@ -26,4 +26,9 @@ public class Ingredient {
         this.countOfIngredient = countOfIngredient;
         this.measureUnit = ValidateUtils.validateStringByDefault(measureUnit);
     }
+
+    @Override
+    public String toString() {
+        return nameOfIngredient + " " + countOfIngredient + " " + measureUnit;
+    }
 }

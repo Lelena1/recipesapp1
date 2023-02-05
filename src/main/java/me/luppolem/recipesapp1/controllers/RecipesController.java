@@ -94,6 +94,10 @@ public class RecipesController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{all}")
+    public ResponseEntity<Object> getAllRecipesFile(@PathVariable Recipe recipe) {
+        
+    }
     @PutMapping("/{id}")
     @Operation(
             summary = "Редактирование рецепта",
