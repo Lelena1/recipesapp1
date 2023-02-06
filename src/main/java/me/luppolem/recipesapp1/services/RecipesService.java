@@ -17,6 +17,9 @@ public interface RecipesService {
     Recipe editRecipe(long id, Recipe recipe);
 
     boolean deleteRecipe(long id);
+
+
+    Path createRecipesFile() throws IOException;
 }
 
 

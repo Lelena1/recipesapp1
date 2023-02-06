@@ -7,13 +7,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import me.luppolem.recipesapp1.model.Ingredient;
 import me.luppolem.recipesapp1.model.Recipe;
 import me.luppolem.recipesapp1.services.RecipesService;
+import me.luppolem.recipesapp1.services.impl.RecipesServiceImpl;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 
 @RestController
@@ -72,6 +78,7 @@ public class RecipesController {
         }
         return ResponseEntity.ok(recipe);
     }
+
     @GetMapping
     @Operation(
             summary = "Получение списка всех рецептов",
@@ -95,9 +102,26 @@ public class RecipesController {
     }
 
     @GetMapping("/{all}")
-    public ResponseEntity<Object> getAllRecipesFile(@PathVariable Recipe recipe) {
-        
+    public ResponseEntity<Object> getAllRecipesInTxt(@PathVariable Recipe recipe) {
+        try {
+            Path path = recipesService.createRecipesFile();
+            if (Files.size(path) == 0) {
+                return ResponseEntity.noContent().build();
+            }
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .contentLength(Files.size(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filemame=\"" + recipe + " -file.txt\"")
+                    .body(resource);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.toString());
+        }
+
     }
+
     @PutMapping("/{id}")
     @Operation(
             summary = "Редактирование рецепта",

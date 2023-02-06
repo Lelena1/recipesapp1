@@ -10,10 +10,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import me.luppolem.recipesapp1.model.Ingredient;
 import me.luppolem.recipesapp1.model.Recipe;
 import me.luppolem.recipesapp1.services.IngredientsService;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
@@ -94,6 +101,27 @@ public class IngredientsController {
     public ResponseEntity<Collection<Ingredient>> getAllIngredients() {
         ingredientsService.getAllIngredients();
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{all}")
+    public ResponseEntity<Object> getAllIngredientsInTxt(@PathVariable Ingredient ingredient) {
+        try {
+            Path path = ingredientsService.createIngredientsFile();
+            if (Files.size(path) == 0) {
+                return ResponseEntity.noContent().build();
+            }
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(path.toFile()));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .contentLength(Files.size(path))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filemame=\"" + ingredient + " -file.txt\"")
+                    .body(resource);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.toString());
+        }
+
     }
 
     @PutMapping("/{id}")
