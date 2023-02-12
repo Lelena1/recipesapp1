@@ -2,6 +2,8 @@ package me.luppolem.recipesapp1.services;
 
 import me.luppolem.recipesapp1.model.Recipe;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 
 public interface RecipesService {
@@ -15,4 +17,9 @@ public interface RecipesService {
     Recipe editRecipe(long id, Recipe recipe);
 
     boolean deleteRecipe(long id);
+
+
+    Path createRecipesFile() throws IOException;
 }
+
+

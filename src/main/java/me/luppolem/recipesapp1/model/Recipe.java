@@ -29,4 +29,9 @@ public class Recipe {
         this.ingredients = ingredients;
         this.steps = steps;
     }
+
+    @Override
+    public String toString() {
+        return nameOfRecipe + " " + cookingTimeMinutes + " " + numberOfServings + " " + ingredients + " " + steps;
+    }
 }

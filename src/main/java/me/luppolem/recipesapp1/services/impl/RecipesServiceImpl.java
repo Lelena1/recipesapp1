@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,10 +85,24 @@ public class RecipesServiceImpl implements RecipesService {
         return false;
     }
 
+    @Override
+    public Path createRecipesFile() throws IOException {
+        recipes.getOrDefault(id, null);
+        Path path = filesService.createTempFile("recipesFile");
+        for (Recipe recipe : recipes.values()) {
+            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+                writer.append(recipe.getNameOfRecipe() + ": " + recipe.getCookingTimeMinutes() + " мин. "
+                        + recipe.getNumberOfServings() + " " + recipe.getIngredients() + " " + recipe.getSteps());
+                writer.append("\n");
+            }
+        }
+        return path;
+    }
+
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(recipes);
-            filesService.saveToFile(json,dataFileName);
+            filesService.saveToFile(json, dataFileName);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
